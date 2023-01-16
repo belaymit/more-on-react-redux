@@ -3,4 +3,9 @@ const ADD = (item) => ({
   payload: item,
 });
 
-export default ADD;
+const REMOVE = (id) => ({
+  type: 'REMOVE_CART',
+  payload: id,
+});
+
+export { ADD, REMOVE };
