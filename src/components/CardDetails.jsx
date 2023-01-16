@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { REMOVE } from '../redux/actions/actions';
 
 const CardDetails = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
+  const history = useNavigate();
+
   id = Number(id);
   const [data, setData] = useState([]);
   const getData = useSelector((state) => state.reducerFunctions.carts);
@@ -12,6 +16,11 @@ const CardDetails = () => {
   const fetchData = () => {
     const filteredData = getData.filter((e) => e.id === id);
     setData(filteredData);
+  };
+
+  const removeCart = (id) => {
+    dispatch(REMOVE(id));
+    history('/');
   };
 
   useEffect(() => {
@@ -59,26 +68,27 @@ const CardDetails = () => {
                         <td>
                           <p>
                             <strong>Rating: </strong>
-                            {' '}
                             <span style={{
                               background: 'green', color: '#fff', padding: '2px 5px', borderRadius: '5px',
                             }}
                             >
-                              {' '}
-                              3.5⭐
-                              {' '}
+                              {element.rating}
+                              ⭐
                             </span>
                           </p>
                           <p>
                             <strong>Order Review: </strong>
-                            <span>1175 + order place from here recently</span>
+                            <span>{element.somedata}</span>
                           </p>
                           <p>
                             <strong>Remove: </strong>
                             <span>
-                              {' '}
-                              <i className="fas fa-trash" style={{ color: 'red', fontSize: 16, cursor: 'pointer' }} />
-                              {' '}
+                              <i
+                                className="fas fa-trash"
+                                style={{ color: 'red', fontSize: 16, cursor: 'pointer' }}
+                                onClick={() => removeCart(element.id)}
+                                role="presentation"
+                              />
                             </span>
                           </p>
                         </td>
