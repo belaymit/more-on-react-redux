@@ -3,7 +3,7 @@
   transition: 0.3s;
 }
 
-.smalltrash {
+.small-trash {
   display: none;
 }
 
@@ -46,11 +46,11 @@
 }
 
 @media (max-width: 450px) {
-  .smalltrash {
+  .small-trash {
     display: block;
   }
 
-  .largetrash {
+  .large-trash {
     display: none;
   }
 
