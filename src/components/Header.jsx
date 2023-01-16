@@ -3,14 +3,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { NavLink } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Badge from '@mui/material/Badge';
 import Table from 'react-bootstrap/Table';
 import Menu from '@mui/material/Menu';
 import cart from '../assets/going-shopping-shopping.gif';
+import { REMOVE } from '../redux/actions/actions';
 import '../styles/styles.css';
 
 const Header = () => {
+  const dispatch = useDispatch();
   const getData = useSelector((state) => state.reducerFunctions.carts);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -20,6 +22,10 @@ const Header = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const removeCart = (id) => {
+    dispatch(REMOVE(id));
   };
 
   return (
@@ -48,7 +54,7 @@ const Header = () => {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClick={handleClose}
           MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}
@@ -69,7 +75,7 @@ const Header = () => {
                         <>
                           <tr key={e.id}>
                             <td>
-                              <NavLink to={`/cart/${e.id}`}>
+                              <NavLink to={`/cart/${e.id}`} onClick={handleClose}>
                                 <img src={e.imgdata} alt={e.rname} style={{ width: '5rem', height: '5rem' }} />
                               </NavLink>
                             </td>
@@ -84,11 +90,20 @@ const Header = () => {
                                 {' '}
                                 {e.qnty}
                               </p>
-                              <p style={{ color: 'red', fontSize: 20, cursor: 'pointer' }}>
+                              <p
+                                style={{ color: 'red', fontSize: 20, cursor: 'pointer' }}
+                                onClick={() => removeCart(e.id)}
+                                role="presentation"
+                              >
                                 <i className="fas fa-trash small-trash" />
                               </p>
                             </td>
-                            <td className="mt-5" style={{ color: 'red', fontSize: 20, cursor: 'pointer' }}>
+                            <td
+                              className="mt-5"
+                              style={{ color: 'red', fontSize: 20, cursor: 'pointer' }}
+                              onClick={() => removeCart(e.id)}
+                              role="presentation"
+                            >
                               <i className="fas fa-trash large-trash" />
                             </td>
                           </tr>
